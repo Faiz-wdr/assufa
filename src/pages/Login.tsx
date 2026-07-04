@@ -90,13 +90,13 @@ export const Login: React.FC = () => {
 
 
 
-      <div className="mt-4 rounded-[12px] bg-slate-100/85 p-3 text-[10px] text-slate-500">
+      {/* <div className="mt-4 rounded-[12px] bg-slate-100/85 p-3 text-[10px] text-slate-500">
         <p className="font-bold text-slate-700 mb-1">Prepared for Future Expansion:</p>
         <ul className="list-disc pl-3.5 space-y-0.5 font-medium">
           <li>Database is fully indexed and multi-tenant.</li>
           <li>Auth architecture is ready for Phone OTP.</li>
         </ul>
-      </div>
+      </div> */}
     </form>
   );
 };

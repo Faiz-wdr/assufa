@@ -43,7 +43,6 @@ export interface Database {
           full_name: string | null
           phone: string | null
           role: 'super_admin' | 'org_admin'
-          theme_preference: 'light' | 'dark'
           created_at: string
         }
         Insert: {
@@ -52,7 +51,6 @@ export interface Database {
           full_name?: string | null
           phone?: string | null
           role?: 'super_admin' | 'org_admin'
-          theme_preference?: 'light' | 'dark'
           created_at?: string
         }
         Update: {
@@ -61,7 +59,6 @@ export interface Database {
           full_name?: string | null
           phone?: string | null
           role?: 'super_admin' | 'org_admin'
-          theme_preference?: 'light' | 'dark'
           created_at?: string
         }
         Relationships: [
