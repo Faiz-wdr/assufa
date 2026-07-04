@@ -329,15 +329,11 @@ export const Reports: React.FC = () => {
       const footerHeight = 50;
       const height = headerHeight + summaryHeight + (allStudents.length * rowHeight) + footerHeight;
 
-      const scaleFactor = 3; // Render at 3x resolution for high-definition sharpness and clarity
       const canvas = document.createElement('canvas');
-      canvas.width = width * scaleFactor;
-      canvas.height = height * scaleFactor;
+      canvas.width = width;
+      canvas.height = height;
       const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('Could not get canvas context');
-
-      // Scale context drawing actions to fit 3x buffer automatically
-      ctx.scale(scaleFactor, scaleFactor);
 
       // Enable high quality text rendering alignment
       ctx.textBaseline = 'middle';
@@ -432,7 +428,7 @@ export const Reports: React.FC = () => {
       ctx.fillStyle = '#9CA3AF';
       ctx.font = '500 11px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('Generated via Assufa Dars', width / 2, currentY + (footerHeight / 2));
+      ctx.fillText('Generated via Assufa Dars App', width / 2, currentY + (footerHeight / 2));
       ctx.textAlign = 'left';
 
       await shareImage(canvas, report.dateStr);
