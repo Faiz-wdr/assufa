@@ -75,7 +75,7 @@ export const Help: React.FC = () => {
       content: (
         <div className="space-y-2">
           <p>
-            Nattu Dars Attendance is a simple attendance management application designed for weekly Nattu Dars classes.
+            Assufa Dars Attendance is a simple attendance management application designed for weekly Assufa Dars classes.
           </p>
           <p className="font-bold">It helps administrators:</p>
           <ul className="list-disc pl-4 space-y-1">
