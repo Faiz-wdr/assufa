@@ -6,7 +6,8 @@ import {
   ChevronDown, 
   Trash2, 
   Edit, 
-  Users 
+  Users,
+  Share2
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/supabase/supabase';
@@ -100,6 +101,24 @@ export const Reports: React.FC = () => {
     },
     enabled: !!orgId,
   });
+
+  // Query: Get organization details for share reports
+  const { data: orgInfo } = useQuery({
+    queryKey: ['org_info_reports', orgId],
+    queryFn: async () => {
+      if (!orgId) return null;
+      const { data, error } = await supabase
+        .from('organizations')
+        .select('name, location')
+        .eq('id', orgId)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!orgId
+  });
+
+  const [isSharing, setIsSharing] = useState(false);
 
   // Mutation: Delete Attendance for Date
   const deleteAttendanceMutation = useMutation({
@@ -219,6 +238,205 @@ export const Reports: React.FC = () => {
     e.stopPropagation();
     setDateToDelete(dateStr);
     setIsDeleteDialogOpen(true);
+  };
+
+  // ── Share Attendance as Image (Canvas based) ──
+  const drawRoundedRect = (
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    radius: number
+  ) => {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+  };
+
+  const downloadFile = (blob: Blob, dateStr: string) => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `attendance_report_${dateStr}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    toast('Image downloaded. You can now share it to WhatsApp!', 'info');
+  };
+
+  const shareImage = async (canvas: HTMLCanvasElement, dateStr: string) => {
+    try {
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          toast('Failed to generate image file.', 'error');
+          return;
+        }
+
+        const file = new File([blob], `attendance_${dateStr}.png`, { type: 'image/png' });
+
+        // Check if Web Share API is supported
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: `Attendance Report - ${dateStr}`,
+              text: `Daily attendance report for ${dateStr}.`
+            });
+            toast('Shared successfully!', 'success');
+          } catch (shareError: any) {
+            // AbortError is triggered if the user cancels the share sheet
+            if (shareError.name !== 'AbortError') {
+              downloadFile(blob, dateStr);
+            }
+          }
+        } else {
+          downloadFile(blob, dateStr);
+        }
+      }, 'image/png');
+    } catch (err: any) {
+      toast('Failed to generate sharing image.', 'error');
+    }
+  };
+
+  const handleShareAsImage = async (report: ReportGroup) => {
+    setIsSharing(true);
+    try {
+      const orgName = (orgInfo as any)?.name || 'Assufa Dars';
+      const orgLocation = (orgInfo as any)?.location || '';
+
+      // Merge present and absent lists into a single alphabetically sorted list
+      const allStudents = [
+        ...report.present.map(name => ({ name, status: 'Present' as const })),
+        ...report.absent.map(name => ({ name, status: 'Absent' as const }))
+      ];
+      allStudents.sort((a, b) => a.name.localeCompare(b.name));
+
+      // Canvas sizes
+      const width = 480;
+      const headerHeight = 120;
+      const rowHeight = 44;
+      const summaryHeight = 60;
+      const footerHeight = 50;
+      const height = headerHeight + summaryHeight + (allStudents.length * rowHeight) + footerHeight;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Could not get canvas context');
+
+      // Enable high quality text rendering alignment
+      ctx.textBaseline = 'middle';
+
+      // 1. Header background
+      ctx.fillStyle = '#B51D52'; // Brand Primary color
+      ctx.fillRect(0, 0, width, headerHeight);
+
+      // 2. Header Text
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.fillText('Attendance Report', 24, 34);
+
+      ctx.font = '500 13px sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillText(`${orgName} ${orgLocation ? `• ${orgLocation}` : ''}`, 24, 60);
+
+      ctx.font = 'bold 13px sans-serif';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText(`${report.dayName}, ${report.formattedDate}`, 24, 86);
+
+      // 3. Summary row background
+      ctx.fillStyle = '#FAFAFA';
+      ctx.fillRect(0, headerHeight, width, summaryHeight);
+      
+      // Bottom border for summary
+      ctx.strokeStyle = '#E5E7EB';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, headerHeight + summaryHeight);
+      ctx.lineTo(width, headerHeight + summaryHeight);
+      ctx.stroke();
+
+      // Summary text positioning
+      ctx.font = '600 12px sans-serif';
+      
+      // Present Count
+      ctx.fillStyle = '#16A34A';
+      ctx.fillText(`Present: ${report.presentCount}`, 24, headerHeight + 30);
+
+      // Absent Count
+      ctx.fillStyle = '#DC2626';
+      ctx.fillText(`Absent: ${report.absentCount}`, 140, headerHeight + 30);
+
+      // Percentage
+      ctx.fillStyle = '#111827';
+      ctx.fillText(`Attendance: ${report.percentage}%`, 250, headerHeight + 30);
+
+      // 4. Students rows
+      let currentY = headerHeight + summaryHeight;
+      allStudents.forEach((student, index) => {
+        // Alternate backgrounds
+        ctx.fillStyle = index % 2 === 0 ? '#FFFFFF' : '#F9FAFB';
+        ctx.fillRect(0, currentY, width, rowHeight);
+
+        // Bottom border line
+        ctx.strokeStyle = '#F3F4F6';
+        ctx.beginPath();
+        ctx.moveTo(0, currentY + rowHeight);
+        ctx.lineTo(width, currentY + rowHeight);
+        ctx.stroke();
+
+        // Student name
+        ctx.fillStyle = '#111827';
+        ctx.font = '600 14px sans-serif';
+        ctx.fillText(student.name, 24, currentY + (rowHeight / 2));
+
+        // Draw status badge pill
+        const badgeText = student.status.toUpperCase();
+        const badgeWidth = student.status === 'Present' ? 76 : 68;
+        const badgeHeight = 22;
+        const badgeX = width - badgeWidth - 24;
+        const badgeY = currentY + (rowHeight - badgeHeight) / 2;
+
+        ctx.fillStyle = student.status === 'Present' ? '#DCFCE7' : '#FEE2E2';
+        drawRoundedRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 6);
+        ctx.fill();
+
+        ctx.fillStyle = student.status === 'Present' ? '#16A34A' : '#DC2626';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(badgeText, badgeX + (badgeWidth / 2), badgeY + (badgeHeight / 2) + 0.5);
+        ctx.textAlign = 'left'; // restore alignment
+
+        currentY += rowHeight;
+      });
+
+      // 5. Footer
+      ctx.fillStyle = '#F3F4F6';
+      ctx.fillRect(0, currentY, width, footerHeight);
+
+      ctx.fillStyle = '#9CA3AF';
+      ctx.font = '500 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Generated via Assufa Dars', width / 2, currentY + (footerHeight / 2));
+      ctx.textAlign = 'left';
+
+      await shareImage(canvas, report.dateStr);
+    } catch (err: any) {
+      toast('Failed to generate image.', 'error');
+    } finally {
+      setIsSharing(false);
+    }
   };
 
   const handleConfirmDelete = () => {
@@ -436,6 +654,16 @@ export const Reports: React.FC = () => {
                                   icon={Edit}
                                 >
                                   Edit Sheet
+                                </Button>
+                                <Button 
+                                  variant="primary" 
+                                  size="sm"
+                                  className="flex-1 py-1.5 text-xs"
+                                  onClick={() => handleShareAsImage(report)}
+                                  icon={Share2}
+                                  loading={isSharing}
+                                >
+                                  Share Image
                                 </Button>
                                 <Button 
                                   variant="ghost" 
