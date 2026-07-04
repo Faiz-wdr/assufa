@@ -18,6 +18,7 @@ import {
   EyeOff,
   HelpCircle,
   MessageSquare,
+  ArrowLeft,
 } from 'lucide-react';
 import { supabase } from '@/supabase/supabase';
 import { useAuth } from '@/features/auth/AuthContext';
@@ -407,21 +408,24 @@ const LegalPageWrapper: React.FC<LegalPageWrapperProps> = ({ title, onClose, chi
       className="relative w-full max-w-md h-full bg-neutral-bg dark:bg-neutral-900 overflow-y-auto"
       onClick={(e) => e.stopPropagation()}
     >
-      {/* Header */}
-      <div className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4">
-        <button
-          onClick={onClose}
-          className="flex items-center space-x-2 text-small font-semibold text-primary"
-        >
-          <ChevronRight className="h-4 w-4 rotate-180" />
-          <span>Settings</span>
-        </button>
-        <h1 className="absolute left-1/2 -translate-x-1/2 text-small font-bold text-neutral-textPrimary dark:text-white">
-          {title}
-        </h1>
-      </div>
       {/* Content */}
-      <div className="px-5 py-6">
+      <div className="px-5 py-6 space-y-6">
+        {/* Title Bar with Back Button (Help/Support Style) */}
+        <div className="flex items-center space-x-3.5">
+          <button
+            onClick={onClose}
+            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700 text-neutral-textPrimary dark:text-white hover:bg-neutral-bg dark:hover:bg-neutral-700 active:scale-95 transition-all focus:outline-none"
+            title="Go back"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-neutral-textPrimary dark:text-white leading-tight">
+              {title}
+            </h1>
+          </div>
+        </div>
+
         <Suspense fallback={
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-6 w-6 animate-spin text-primary" />

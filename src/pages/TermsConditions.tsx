@@ -22,9 +22,6 @@ export const TermsConditions: React.FC = () => {
     <article className="text-left">
       {/* Intro */}
       <div className="mb-7">
-        <h1 className="text-h2 font-bold text-neutral-textPrimary dark:text-white mb-1.5">
-          Terms &amp; Conditions
-        </h1>
         <p className="text-caption text-neutral-textSecondary dark:text-neutral-500">
           Last updated: {lastUpdated}
         </p>
