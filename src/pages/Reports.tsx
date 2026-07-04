@@ -321,12 +321,12 @@ export const Reports: React.FC = () => {
       ];
       allStudents.sort((a, b) => a.name.localeCompare(b.name));
 
-      // Canvas sizes
-      const width = 480;
-      const headerHeight = 120;
-      const rowHeight = 44;
-      const summaryHeight = 60;
-      const footerHeight = 50;
+      // Native High-Resolution Canvas Dimensions (2x size: 960px width)
+      const width = 960;
+      const headerHeight = 240;
+      const rowHeight = 88;
+      const summaryHeight = 120;
+      const footerHeight = 100;
       const height = headerHeight + summaryHeight + (allStudents.length * rowHeight) + footerHeight;
 
       const canvas = document.createElement('canvas');
@@ -338,22 +338,22 @@ export const Reports: React.FC = () => {
       // Enable high quality text rendering alignment
       ctx.textBaseline = 'middle';
 
-      // 1. Header background
-      ctx.fillStyle = '#B51D52'; // Brand Primary color
+      // 1. Header background (Ruby Crimson Brand Primary)
+      ctx.fillStyle = '#B51D52';
       ctx.fillRect(0, 0, width, headerHeight);
 
-      // 2. Header Text
+      // 2. Header Text (Native High-Res Vector Fonts)
       ctx.fillStyle = '#FFFFFF';
-      ctx.font = 'bold 20px sans-serif';
-      ctx.fillText('Attendance Report', 24, 34);
+      ctx.font = 'bold 38px sans-serif';
+      ctx.fillText('Attendance Report', 48, 70);
 
-      ctx.font = '500 13px sans-serif';
+      ctx.font = '500 24px sans-serif';
       ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-      ctx.fillText(`${orgName} ${orgLocation ? `• ${orgLocation}` : ''}`, 24, 60);
+      ctx.fillText(`${orgName} ${orgLocation ? `• ${orgLocation}` : ''}`, 48, 125);
 
-      ctx.font = 'bold 13px sans-serif';
+      ctx.font = 'bold 24px sans-serif';
       ctx.fillStyle = '#FFFFFF';
-      ctx.fillText(`${report.dayName}, ${report.formattedDate}`, 24, 86);
+      ctx.fillText(`${report.dayName}, ${report.formattedDate}`, 48, 180);
 
       // 3. Summary row background
       ctx.fillStyle = '#FAFAFA';
@@ -361,26 +361,26 @@ export const Reports: React.FC = () => {
 
       // Bottom border for summary
       ctx.strokeStyle = '#E5E7EB';
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(0, headerHeight + summaryHeight);
       ctx.lineTo(width, headerHeight + summaryHeight);
       ctx.stroke();
 
       // Summary text positioning
-      ctx.font = '600 12px sans-serif';
+      ctx.font = '600 22px sans-serif';
 
       // Present Count
       ctx.fillStyle = '#16A34A';
-      ctx.fillText(`Present: ${report.presentCount}`, 24, headerHeight + 30);
+      ctx.fillText(`Present: ${report.presentCount}`, 48, headerHeight + 60);
 
       // Absent Count
       ctx.fillStyle = '#DC2626';
-      ctx.fillText(`Absent: ${report.absentCount}`, 140, headerHeight + 30);
+      ctx.fillText(`Absent: ${report.absentCount}`, 320, headerHeight + 60);
 
       // Percentage
       ctx.fillStyle = '#111827';
-      ctx.fillText(`Attendance: ${report.percentage}%`, 250, headerHeight + 30);
+      ctx.fillText(`Attendance: ${report.percentage}%`, 600, headerHeight + 60);
 
       // 4. Students rows
       let currentY = headerHeight + summaryHeight;
@@ -391,6 +391,7 @@ export const Reports: React.FC = () => {
 
         // Bottom border line
         ctx.strokeStyle = '#F3F4F6';
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(0, currentY + rowHeight);
         ctx.lineTo(width, currentY + rowHeight);
@@ -398,24 +399,24 @@ export const Reports: React.FC = () => {
 
         // Student name
         ctx.fillStyle = '#111827';
-        ctx.font = '600 14px sans-serif';
-        ctx.fillText(student.name, 24, currentY + (rowHeight / 2));
+        ctx.font = '600 26px sans-serif';
+        ctx.fillText(student.name, 48, currentY + (rowHeight / 2));
 
-        // Draw status badge pill
+        // Draw status badge pill (Scaled up for high-res)
         const badgeText = student.status.toUpperCase();
-        const badgeWidth = student.status === 'Present' ? 76 : 68;
-        const badgeHeight = 22;
-        const badgeX = width - badgeWidth - 24;
+        const badgeWidth = student.status === 'Present' ? 144 : 130;
+        const badgeHeight = 44;
+        const badgeX = width - badgeWidth - 48;
         const badgeY = currentY + (rowHeight - badgeHeight) / 2;
 
         ctx.fillStyle = student.status === 'Present' ? '#DCFCE7' : '#FEE2E2';
-        drawRoundedRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 6);
+        drawRoundedRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 10);
         ctx.fill();
 
         ctx.fillStyle = student.status === 'Present' ? '#16A34A' : '#DC2626';
-        ctx.font = 'bold 10px sans-serif';
+        ctx.font = 'bold 18px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(badgeText, badgeX + (badgeWidth / 2), badgeY + (badgeHeight / 2) + 0.5);
+        ctx.fillText(badgeText, badgeX + (badgeWidth / 2), badgeY + (badgeHeight / 2) + 1);
         ctx.textAlign = 'left'; // restore alignment
 
         currentY += rowHeight;
@@ -426,7 +427,7 @@ export const Reports: React.FC = () => {
       ctx.fillRect(0, currentY, width, footerHeight);
 
       ctx.fillStyle = '#9CA3AF';
-      ctx.font = '500 11px sans-serif';
+      ctx.font = '500 20px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('Generated via Assufa Dars App', width / 2, currentY + (footerHeight / 2));
       ctx.textAlign = 'left';
