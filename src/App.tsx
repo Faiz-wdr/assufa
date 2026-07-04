@@ -14,6 +14,8 @@ import { Reports } from '@/pages/Reports';
 import { Settings } from '@/pages/Settings';
 import { Admin } from '@/pages/Admin';
 import { Showroom } from '@/pages/Showroom';
+import { Help } from '@/pages/Help';
+import { Support } from '@/pages/Support';
 
 // Initialize Query Client
 const queryClient = new QueryClient({
@@ -51,6 +53,8 @@ function App() {
                   <Route path="/students" element={<Students />} />
                   <Route path="/reports" element={<Reports />} />
                   <Route path="/settings" element={<Settings />} />
+                  <Route path="/settings/help" element={<Help />} />
+                  <Route path="/settings/support" element={<Support />} />
                   <Route path="/showroom" element={<Showroom />} />
 
                   {/* Super Admin Restricted Route */}

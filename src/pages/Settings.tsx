@@ -2,6 +2,7 @@ import React, { useState, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import * as XLSX from 'xlsx';
+import { useNavigate } from 'react-router-dom';
 import {
   MapPin,
   Download,
@@ -15,6 +16,8 @@ import {
   KeyRound,
   Eye,
   EyeOff,
+  HelpCircle,
+  MessageSquare,
 } from 'lucide-react';
 import { supabase } from '@/supabase/supabase';
 import { useAuth } from '@/features/auth/AuthContext';
@@ -437,6 +440,7 @@ const LegalPageWrapper: React.FC<LegalPageWrapperProps> = ({ title, onClose, chi
 export const Settings: React.FC = () => {
   const { user, profile } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { classPlace, saveClassPlace, theme, saveTheme } = useSettings();
 
   const orgId = profile?.organization_id;
@@ -728,6 +732,27 @@ export const Settings: React.FC = () => {
             </p>
           </div>
           <ThemeControl value={theme} onChange={handleThemeChange} />
+        </div>
+
+        {/* ─── SECTION 3.5: HELP & SUPPORT ─── */}
+        <SectionLabel label="Help & Support" />
+        <div className="space-y-2">
+          <SettingsRow
+            id="settings-help"
+            icon={<HelpCircle className="h-4.5 w-4.5 text-primary" />}
+            iconBg="bg-primary-soft dark:bg-primary/20"
+            title="Help"
+            subtitle="Understand how to use the application"
+            onClick={() => navigate('/settings/help')}
+          />
+          <SettingsRow
+            id="settings-support"
+            icon={<MessageSquare className="h-4.5 w-4.5 text-info" />}
+            iconBg="bg-cyan-50 dark:bg-cyan-900/30"
+            title="Support"
+            subtitle="Get in touch with support"
+            onClick={() => navigate('/settings/support')}
+          />
         </div>
 
         {/* ─── SECTION 4: LEGAL ─── */}
