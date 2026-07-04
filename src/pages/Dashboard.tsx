@@ -154,6 +154,8 @@ const MonthlyCalendar: React.FC<CalendarProps> = React.memo(({
 
 MonthlyCalendar.displayName = 'MonthlyCalendar';
 
+import { Admin } from './Admin';
+
 // ==========================================
 // DASHBOARD PAGE COMPONENT
 // ==========================================
@@ -162,6 +164,11 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const orgId = profile?.organization_id;
   const todayStr = getTodayLocalDateString();
+
+  // Super Admin view redirection to organization controller
+  if (profile?.role === 'super_admin') {
+    return <Admin />;
+  }
 
   // Calendar month navigation state
   const todayDate = new Date();

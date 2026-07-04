@@ -11,6 +11,10 @@ import {
   Shield,
   ChevronRight,
   Loader2,
+  Mail,
+  KeyRound,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { supabase } from '@/supabase/supabase';
 import { useAuth } from '@/features/auth/AuthContext';
@@ -431,7 +435,7 @@ const LegalPageWrapper: React.FC<LegalPageWrapperProps> = ({ title, onClose, chi
 // MAIN SETTINGS PAGE
 // ==========================================
 export const Settings: React.FC = () => {
-  const { profile } = useAuth();
+  const { user, profile } = useAuth();
   const { toast } = useToast();
   const { classPlace, saveClassPlace, theme, saveTheme } = useSettings();
 
@@ -452,6 +456,18 @@ export const Settings: React.FC = () => {
   const [exportEnd, setExportEnd] = useState('');
   const [isExporting, setIsExporting] = useState(false);
   const [exportError, setExportError] = useState('');
+
+  // Admin Account Settings Sheets
+  const [isEmailSheetOpen, setIsEmailSheetOpen] = useState(false);
+  const [emailInput, setEmailInput] = useState('');
+  const [isSavingEmail, setIsSavingEmail] = useState(false);
+  const [emailError, setEmailError] = useState('');
+
+  const [isPasswordSheetOpen, setIsPasswordSheetOpen] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSavingPassword, setIsSavingPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
 
   // ── Queries (for export) ──
   const { data: students = [] } = useQuery<Student[]>({
@@ -560,31 +576,72 @@ export const Settings: React.FC = () => {
     }
   };
 
+  // ── Handlers: Admin Account ──
+  const openEmailSheet = () => {
+    setEmailInput(user?.email || '');
+    setEmailError('');
+    setIsEmailSheetOpen(true);
+  };
+
+  const openPasswordSheet = () => {
+    setPasswordInput('');
+    setPasswordError('');
+    setShowPassword(false);
+    setIsPasswordSheetOpen(true);
+  };
+
+  const handleSaveEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = emailInput.trim();
+    if (!trimmed || !/\S+@\S+\.\S+/.test(trimmed)) {
+      setEmailError('Provide a valid email address');
+      return;
+    }
+    setIsSavingEmail(true);
+    setEmailError('');
+    try {
+      const { error } = await supabase.auth.updateUser({ email: trimmed });
+      if (error) throw error;
+      setIsEmailSheetOpen(false);
+      setEmailInput('');
+      toast('Email updated! Verification links sent to both emails.', 'success');
+    } catch (err: any) {
+      setEmailError(err.message || 'Failed to update email.');
+      toast('Failed to update email.', 'error');
+    } finally {
+      setIsSavingEmail(false);
+    }
+  };
+
+  const handleSavePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!passwordInput || passwordInput.length < 8) {
+      setPasswordError('Password must be at least 8 characters');
+      return;
+    }
+    setIsSavingPassword(true);
+    setPasswordError('');
+    try {
+      const { error } = await supabase.auth.updateUser({ password: passwordInput });
+      if (error) throw error;
+      setIsPasswordSheetOpen(false);
+      setPasswordInput('');
+      toast('Password updated successfully!', 'success');
+    } catch (err: any) {
+      setPasswordError(err.message || 'Failed to update password.');
+      toast('Failed to update password.', 'error');
+    } finally {
+      setIsSavingPassword(false);
+    }
+  };
+
   // ── Handlers: Theme ──
   const handleThemeChange = async (newTheme: 'light' | 'dark') => {
     await saveTheme(newTheme);
     toast(`${newTheme === 'dark' ? 'Dark' : 'Light'} mode enabled.`, 'info');
   };
 
-  // ── Super Admin guard ──
-  if (profile?.role === 'super_admin') {
-    return (
-      <motion.div
-        variants={containerVariants}
-        initial="initial"
-        animate="animate"
-        className="space-y-4 text-left"
-      >
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-neutral-textPrimary dark:text-white">Settings</h1>
-          <p className="text-caption text-neutral-textSecondary">Application preferences and utilities.</p>
-        </div>
-        <div className="rounded-card border border-neutral-border bg-white dark:bg-neutral-800 p-8 text-center">
-          <p className="text-small text-neutral-textSecondary">Settings are only available for organization admins.</p>
-        </div>
-      </motion.div>
-    );
-  }
+  const isSuperAdmin = profile?.role === 'super_admin';
 
   return (
     <>
@@ -607,26 +664,55 @@ export const Settings: React.FC = () => {
         </div>
 
         {/* ─── SECTION 1: CLASS INFORMATION ─── */}
-        <SectionLabel label="Class Information" />
-        <SettingsRow
-          id="settings-class-place"
-          icon={<MapPin className="h-4.5 w-4.5 text-primary" />}
-          iconBg="bg-primary-soft dark:bg-primary/20"
-          title="Class Place"
-          subtitle={classPlace}
-          onClick={openPlaceSheet}
-        />
+        {!isSuperAdmin && (
+          <>
+            <SectionLabel label="Class Information" />
+            <SettingsRow
+              id="settings-class-place"
+              icon={<MapPin className="h-4.5 w-4.5 text-primary" />}
+              iconBg="bg-primary-soft dark:bg-primary/20"
+              title="Class Place"
+              subtitle={classPlace}
+              onClick={openPlaceSheet}
+            />
+          </>
+        )}
 
         {/* ─── SECTION 2: EXPORT REPORTS ─── */}
-        <SectionLabel label="Export Reports" />
-        <SettingsRow
-          id="settings-export-report"
-          icon={<Download className="h-4.5 w-4.5 text-info" />}
-          iconBg="bg-cyan-50 dark:bg-cyan-900/30"
-          title="Export Attendance Report"
-          subtitle="Download Excel (.xlsx)"
-          onClick={openExportSheet}
-        />
+        {!isSuperAdmin && (
+          <>
+            <SectionLabel label="Export Reports" />
+            <SettingsRow
+              id="settings-export-report"
+              icon={<Download className="h-4.5 w-4.5 text-info" />}
+              iconBg="bg-cyan-50 dark:bg-cyan-900/30"
+              title="Export Attendance Report"
+              subtitle="Download Excel (.xlsx)"
+              onClick={openExportSheet}
+            />
+          </>
+        )}
+
+        {/* ─── SECTION 2.5: ACCOUNT SETTINGS ─── */}
+        <SectionLabel label="Account Settings" />
+        <div className="space-y-2">
+          <SettingsRow
+            id="settings-change-email"
+            icon={<Mail className="h-4.5 w-4.5 text-primary" />}
+            iconBg="bg-primary-soft dark:bg-primary/20"
+            title="Change Email Address"
+            subtitle={user?.email || 'Update your sign-in email'}
+            onClick={openEmailSheet}
+          />
+          <SettingsRow
+            id="settings-change-password"
+            icon={<KeyRound className="h-4.5 w-4.5 text-amber-500" />}
+            iconBg="bg-amber-50 dark:bg-amber-950/35"
+            title="Change Password"
+            subtitle="Update your sign-in password"
+            onClick={openPasswordSheet}
+          />
+        </div>
 
         {/* ─── SECTION 3: APPEARANCE ─── */}
         <SectionLabel label="Appearance" />
@@ -769,6 +855,118 @@ export const Settings: React.FC = () => {
             </Button>
           </div>
         </div>
+      </BottomSheet>
+
+      {/* ─────────────────────────────────────
+          CHANGE EMAIL BOTTOM SHEET
+      ───────────────────────────────────── */}
+      <BottomSheet
+        isOpen={isEmailSheetOpen}
+        onClose={() => setIsEmailSheetOpen(false)}
+        title="Change Email Address"
+      >
+        <form onSubmit={handleSaveEmail} className="space-y-4 pt-1 pb-safe-bottom">
+          <p className="text-small text-neutral-textSecondary dark:text-neutral-400">
+            Provide your new email address. We will send verification links to both your old and new emails.
+          </p>
+
+          <Input
+            label="New Email Address"
+            type="email"
+            value={emailInput}
+            onChange={(e) => {
+              setEmailInput(e.target.value);
+              if (emailError) setEmailError('');
+            }}
+            placeholder="e.g. newemail@domain.com"
+            error={emailError}
+            disabled={isSavingEmail}
+          />
+
+          <div className="grid grid-cols-2 gap-3 pt-1">
+            <Button
+              variant="secondary"
+              size="md"
+              type="button"
+              onClick={() => setIsEmailSheetOpen(false)}
+              disabled={isSavingEmail}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
+              type="submit"
+              loading={isSavingEmail}
+            >
+              Update Email
+            </Button>
+          </div>
+        </form>
+      </BottomSheet>
+
+      {/* ─────────────────────────────────────
+          CHANGE PASSWORD BOTTOM SHEET
+      ───────────────────────────────────── */}
+      <BottomSheet
+        isOpen={isPasswordSheetOpen}
+        onClose={() => setIsPasswordSheetOpen(false)}
+        title="Change Password"
+      >
+        <form onSubmit={handleSavePassword} className="space-y-4 pt-1 pb-safe-bottom">
+          <p className="text-small text-neutral-textSecondary dark:text-neutral-400">
+            Create a new strong password (at least 8 characters).
+          </p>
+
+          <div className="relative">
+            <Input
+              label="New Password"
+              type={showPassword ? 'text' : 'password'}
+              value={passwordInput}
+              onChange={(e) => {
+                setPasswordInput(e.target.value);
+                if (passwordError) setPasswordError('');
+              }}
+              placeholder="Min. 8 characters"
+              error={passwordError}
+              disabled={isSavingPassword}
+              className="pr-12"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              disabled={isSavingPassword}
+              className="absolute right-4 top-[38px] text-neutral-textSecondary dark:text-neutral-500 hover:text-neutral-textPrimary dark:hover:text-white focus:outline-none disabled:opacity-50"
+              title={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? (
+                <EyeOff className="h-5 w-5" />
+              ) : (
+                <Eye className="h-5 w-5" />
+              )}
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 pt-1">
+            <Button
+              variant="secondary"
+              size="md"
+              type="button"
+              onClick={() => setIsPasswordSheetOpen(false)}
+              disabled={isSavingPassword}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
+              type="submit"
+              loading={isSavingPassword}
+            >
+              Update Password
+            </Button>
+          </div>
+        </form>
       </BottomSheet>
 
       {/* ─────────────────────────────────────

@@ -71,13 +71,22 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [theme, setThemeState] = useState<ThemeMode>(getStoredTheme);
   const [isLoading, setIsLoading] = useState(false);
 
-  // ── Apply dark class to <html> on mount and theme change ──
+  // ── Apply dark class and update theme-color meta tag on theme change ──
   useEffect(() => {
     const root = document.documentElement;
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (!metaThemeColor) {
+      metaThemeColor = document.createElement('meta');
+      metaThemeColor.setAttribute('name', 'theme-color');
+      document.head.appendChild(metaThemeColor);
+    }
+
     if (theme === 'dark') {
       root.classList.add('dark');
+      metaThemeColor.setAttribute('content', '#0f172a');
     } else {
       root.classList.remove('dark');
+      metaThemeColor.setAttribute('content', '#ffffff');
     }
     try {
       localStorage.setItem(LS_THEME_KEY, theme);

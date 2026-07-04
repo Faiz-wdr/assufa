@@ -23,35 +23,38 @@ export const DashboardLayout: React.FC = () => {
 
   const isSuperAdmin = profile?.role === 'super_admin';
 
-  // Mobile navigation tabs definition (exactly 5 items)
-  const navItems = [
-    { to: '/dashboard', label: 'Home', icon: Home },
-    { to: '/attendance', label: 'Attendance', icon: ClipboardCheck },
-    { to: '/students', label: 'Students', icon: Users },
-    { to: '/reports', label: 'Reports', icon: BarChart2 },
-    {
-      to: isSuperAdmin ? '/admin' : '/settings',
-      label: 'Settings',
-      icon: Settings
-    },
-  ];
+  // Mobile navigation tabs definition (exactly 5 items for org admin, 2 for super admin)
+  const navItems = isSuperAdmin
+    ? [
+        { to: '/dashboard', label: 'Home', icon: Home },
+        { to: '/settings', label: 'Settings', icon: Settings },
+      ]
+    : [
+        { to: '/dashboard', label: 'Home', icon: Home },
+        { to: '/attendance', label: 'Attendance', icon: ClipboardCheck },
+        { to: '/students', label: 'Students', icon: Users },
+        { to: '/reports', label: 'Reports', icon: BarChart2 },
+        { to: '/settings', label: 'Settings', icon: Settings },
+      ];
 
-  return (
-    // Outer container: centers the stretched mobile container on desktop screens
-    <div className="min-h-screen w-full bg-slate-100 dark:bg-slate-900 flex justify-center">
-      {/* 
-        App Shell Container:
-        - Constrains width to max-w-md on desktop screens (creating a stretched phone look)
-        - Fills viewport completely on mobile screens
-      */}
-      <div className="relative w-full max-w-md min-h-screen bg-neutral-bg dark:bg-neutral-900 flex flex-col shadow-soft border-x border-neutral-border dark:border-neutral-700 overflow-hidden">
+    const placeLetter = isSuperAdmin ? 'A' : (classPlace?.trim().charAt(0).toUpperCase() || 'P');
 
-        {/* Sticky App Bar (64px / h-16) */}
-        <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4">
-          <div className="flex items-center space-x-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-[12px] bg-primary text-white font-bold text-sm shadow-sm">
-              A
-            </div>
+    return (
+      // Outer container: centers the stretched mobile container on desktop screens
+      <div className="min-h-screen w-full bg-slate-100 dark:bg-slate-900 flex justify-center">
+        {/* 
+          App Shell Container:
+          - Constrains width to max-w-md on desktop screens (creating a stretched phone look)
+          - Fills viewport completely on mobile screens
+        */}
+        <div className="relative w-full max-w-md min-h-screen bg-neutral-bg dark:bg-neutral-900 flex flex-col shadow-soft border-x border-neutral-border dark:border-neutral-700 overflow-hidden">
+  
+          {/* Sticky App Bar (64px / h-16) */}
+          <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4">
+            <div className="flex items-center space-x-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-[12px] bg-primary text-white font-bold text-sm shadow-sm select-none">
+                {placeLetter}
+              </div>
             <div className="text-left">
               <h2 className="text-body-lg font-bold text-neutral-textPrimary dark:text-white tracking-tight">
                 {isSuperAdmin ? 'Super Admin' : 'Assufa Dars'}

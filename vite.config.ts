@@ -17,7 +17,7 @@ export default defineConfig({
         name: 'Assufa Dars',
         short_name: 'Assufa Dars',
         description: 'Attendance Management System for Village Islamic Classes',
-        theme_color: '#10b981',
+        theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',

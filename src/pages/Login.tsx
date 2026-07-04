@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 import { supabase } from '@/supabase/supabase';
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,18 +35,16 @@ export const Login: React.FC = () => {
     }
   };
 
-
-
   return (
     <form onSubmit={handleLogin} className="space-y-4 text-left">
       {error && (
-        <div className="rounded-lg bg-red-50 p-3 text-xs text-red-700">
+        <div className="rounded-lg bg-red-50 dark:bg-red-950/40 p-3 text-xs text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60">
           {error}
         </div>
       )}
 
       <div className="space-y-1.5">
-        <label htmlFor="email" className="text-caption font-bold text-neutral-textPrimary">
+        <label htmlFor="email" className="text-caption font-bold text-neutral-textPrimary dark:text-white">
           Email Address
         </label>
         <input
@@ -54,25 +54,40 @@ export const Login: React.FC = () => {
           disabled={loading}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="flex h-[52px] w-full rounded-input border border-neutral-border bg-white px-4 py-3 text-small placeholder-neutral-textSecondary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-50"
+          className="flex h-[52px] w-full rounded-input border border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 py-3 text-small text-neutral-textPrimary dark:text-white placeholder-neutral-textSecondary dark:placeholder-neutral-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-50"
           placeholder="admin@greenclass.com"
         />
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="password" className="text-caption font-bold text-neutral-textPrimary">
+        <label htmlFor="password" className="text-caption font-bold text-neutral-textPrimary dark:text-white">
           Password
         </label>
-        <input
-          id="password"
-          type="password"
-          required
-          disabled={loading}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="flex h-[52px] w-full rounded-input border border-neutral-border bg-white px-4 py-3 text-small placeholder-neutral-textSecondary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-50"
-          placeholder="••••••••"
-        />
+        <div className="relative">
+          <input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            required
+            disabled={loading}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="flex h-[52px] w-full rounded-input border border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 pl-4 pr-12 py-3 text-small text-neutral-textPrimary dark:text-white placeholder-neutral-textSecondary dark:placeholder-neutral-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-50"
+            placeholder="••••••••"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            disabled={loading}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-textSecondary dark:text-neutral-500 hover:text-neutral-textPrimary dark:hover:text-white focus:outline-none disabled:opacity-50"
+            title={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Eye className="h-5 w-5" />
+            )}
+          </button>
+        </div>
       </div>
 
       <button
