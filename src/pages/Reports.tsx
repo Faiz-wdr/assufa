@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Calendar, 
-  ChevronDown, 
-  Trash2, 
-  Edit, 
+import {
+  Calendar,
+  ChevronDown,
+  Trash2,
+  Edit,
   Users,
   Share2
 } from 'lucide-react';
@@ -14,13 +14,13 @@ import { supabase } from '@/supabase/supabase';
 import { useAuth } from '@/features/auth/AuthContext';
 import { useToast } from '@/components/ui/Toast';
 import { Dialog } from '@/components/ui/Dialog';
-import { 
-  Button, 
-  Card, 
-  SearchBar, 
-  Skeleton, 
-  EmptyState, 
-  ErrorState 
+import {
+  Button,
+  Card,
+  SearchBar,
+  Skeleton,
+  EmptyState,
+  ErrorState
 } from '@/components/ui/CoreUI';
 
 // Types matching database schema
@@ -64,10 +64,10 @@ export const Reports: React.FC = () => {
   // ==========================================
 
   // Query: Get students roster for mapping names
-  const { 
-    data: students, 
-    isLoading: isStudentsLoading, 
-    error: studentsError 
+  const {
+    data: students,
+    isLoading: isStudentsLoading,
+    error: studentsError
   } = useQuery<Student[]>({
     queryKey: ['students_roster_names', orgId],
     queryFn: async () => {
@@ -83,9 +83,9 @@ export const Reports: React.FC = () => {
   });
 
   // Query: Get all attendance logs for organization
-  const { 
-    data: attendanceLogs, 
-    isLoading: isAttendanceLoading, 
+  const {
+    data: attendanceLogs,
+    isLoading: isAttendanceLoading,
     error: attendanceError,
     refetch: refetchReports
   } = useQuery<AttendanceLog[]>({
@@ -151,10 +151,10 @@ export const Reports: React.FC = () => {
     if (!dateStr) return '';
     const [year, month, day] = dateStr.split('-').map(Number);
     const date = new Date(year, month - 1, day);
-    return date.toLocaleDateString('en-US', { 
-      day: '2-digit', 
-      month: 'long', 
-      year: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
     });
   };
 
@@ -202,7 +202,7 @@ export const Reports: React.FC = () => {
     return Object.values(groups).map(g => {
       const total = g.presentCount + g.absentCount;
       g.percentage = total > 0 ? Math.round((g.presentCount / total) * 100) : 0;
-      
+
       // Sort student names alphabetically
       g.present.sort((a, b) => a.localeCompare(b));
       g.absent.sort((a, b) => a.localeCompare(b));
@@ -214,7 +214,7 @@ export const Reports: React.FC = () => {
   const filteredReports = useMemo(() => {
     if (!searchQuery.trim()) return reports;
     const q = searchQuery.toLowerCase().trim();
-    return reports.filter(r => 
+    return reports.filter(r =>
       r.dateStr.includes(q) ||
       r.dayName.toLowerCase().includes(q) ||
       r.formattedDate.toLowerCase().includes(q)
@@ -358,7 +358,7 @@ export const Reports: React.FC = () => {
       // 3. Summary row background
       ctx.fillStyle = '#FAFAFA';
       ctx.fillRect(0, headerHeight, width, summaryHeight);
-      
+
       // Bottom border for summary
       ctx.strokeStyle = '#E5E7EB';
       ctx.lineWidth = 1;
@@ -369,7 +369,7 @@ export const Reports: React.FC = () => {
 
       // Summary text positioning
       ctx.font = '600 12px sans-serif';
-      
+
       // Present Count
       ctx.fillStyle = '#16A34A';
       ctx.fillText(`Present: ${report.presentCount}`, 24, headerHeight + 30);
@@ -475,7 +475,7 @@ export const Reports: React.FC = () => {
   const isError = studentsError || attendanceError;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
@@ -489,7 +489,7 @@ export const Reports: React.FC = () => {
       </div>
 
       {/* Dynamic Search Box */}
-      <SearchBar 
+      <SearchBar
         value={searchQuery}
         onChange={(val) => {
           setSearchQuery(val);
@@ -510,7 +510,7 @@ export const Reports: React.FC = () => {
       {/* Fetching Error State */}
       {!isLoading && isError && (
         <div className="pt-2">
-          <ErrorState 
+          <ErrorState
             description="Failed to load historical attendance logs. Please check database connection."
             onRetry={refetchReports}
           />
@@ -523,8 +523,8 @@ export const Reports: React.FC = () => {
           {/* Case A: No Logs Exist at All */}
           {reports.length === 0 && (
             <div className="pt-4">
-              <EmptyState 
-                title="No attendance recorded" 
+              <EmptyState
+                title="No attendance recorded"
                 description="Click below to record your first class attendance roster logs."
                 icon={Calendar}
                 actionLabel="Go to Attendance"
@@ -536,8 +536,8 @@ export const Reports: React.FC = () => {
           {/* Case B: Logs exist but search filters everything out */}
           {reports.length > 0 && filteredReports.length === 0 && (
             <div className="pt-4">
-              <EmptyState 
-                title="No results match search" 
+              <EmptyState
+                title="No results match search"
                 description="Try search by day name (e.g. Friday) or date numbers."
                 onAction={() => setSearchQuery('')}
                 actionLabel="Clear Search"
@@ -564,7 +564,7 @@ export const Reports: React.FC = () => {
                       className="rounded-card border border-neutral-border bg-white overflow-hidden shadow-soft"
                     >
                       {/* Card Header Tappable Segment */}
-                      <div 
+                      <div
                         onClick={() => handleCardTap(report.dateStr)}
                         className="flex items-center justify-between p-4 cursor-pointer select-none"
                       >
@@ -585,10 +585,9 @@ export const Reports: React.FC = () => {
                             <span className="font-bold text-small text-neutral-textPrimary mt-0.5 block">{report.presentCount} / {report.presentCount + report.absentCount}</span>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <span className={`text-caption font-bold px-2 py-0.5 rounded-badge ${
-                              pct >= 85 ? 'bg-emerald-50 text-success' :
-                              pct >= 75 ? 'bg-amber-50 text-warning' : 'bg-red-50 text-danger'
-                            }`}>
+                            <span className={`text-caption font-bold px-2 py-0.5 rounded-badge ${pct >= 85 ? 'bg-emerald-50 text-success' :
+                                pct >= 75 ? 'bg-amber-50 text-warning' : 'bg-red-50 text-danger'
+                              }`}>
                               {pct}%
                             </span>
                             <motion.div
@@ -646,8 +645,8 @@ export const Reports: React.FC = () => {
 
                               {/* Card Actions drawer footer */}
                               <div className="flex space-x-2 pt-3 border-t border-neutral-border/50">
-                                <Button 
-                                  variant="secondary" 
+                                <Button
+                                  variant="secondary"
                                   size="sm"
                                   className="flex-1 py-1.5 text-xs text-primary"
                                   onClick={(e) => handleEditClick(e, report.dateStr)}
@@ -655,18 +654,18 @@ export const Reports: React.FC = () => {
                                 >
                                   Edit Sheet
                                 </Button>
-                                <Button 
-                                  variant="primary" 
+                                <Button
+                                  variant="primary"
                                   size="sm"
                                   className="flex-1 py-1.5 text-xs"
                                   onClick={() => handleShareAsImage(report)}
                                   icon={Share2}
                                   loading={isSharing}
                                 >
-                                  Share Image
+                                  Share
                                 </Button>
-                                <Button 
-                                  variant="ghost" 
+                                <Button
+                                  variant="ghost"
                                   size="sm"
                                   className="flex-1 py-1.5 text-xs text-danger hover:bg-red-50"
                                   onClick={(e) => handleDeleteClick(e, report.dateStr)}
