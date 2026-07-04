@@ -329,11 +329,15 @@ export const Reports: React.FC = () => {
       const footerHeight = 50;
       const height = headerHeight + summaryHeight + (allStudents.length * rowHeight) + footerHeight;
 
+      const scaleFactor = 3; // Render at 3x resolution for high-definition sharpness and clarity
       const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = width * scaleFactor;
+      canvas.height = height * scaleFactor;
       const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('Could not get canvas context');
+
+      // Scale context drawing actions to fit 3x buffer automatically
+      ctx.scale(scaleFactor, scaleFactor);
 
       // Enable high quality text rendering alignment
       ctx.textBaseline = 'middle';
@@ -586,7 +590,7 @@ export const Reports: React.FC = () => {
                           </div>
                           <div className="flex items-center space-x-2">
                             <span className={`text-caption font-bold px-2 py-0.5 rounded-badge ${pct >= 85 ? 'bg-emerald-50 text-success' :
-                                pct >= 75 ? 'bg-amber-50 text-warning' : 'bg-red-50 text-danger'
+                              pct >= 75 ? 'bg-amber-50 text-warning' : 'bg-red-50 text-danger'
                               }`}>
                               {pct}%
                             </span>
@@ -652,7 +656,7 @@ export const Reports: React.FC = () => {
                                   onClick={(e) => handleEditClick(e, report.dateStr)}
                                   icon={Edit}
                                 >
-                                  Edit Sheet
+                                  Edit
                                 </Button>
                                 <Button
                                   variant="primary"
