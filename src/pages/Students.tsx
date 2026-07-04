@@ -391,7 +391,7 @@ export const Students: React.FC = () => {
     
     const link = document.createElement("a");
     link.setAttribute("href", csvContent);
-    link.setAttribute("download", "nattu_dars_students_sample.csv");
+    link.setAttribute("download", "assufa_dars_students_sample.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

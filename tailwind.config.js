@@ -32,29 +32,42 @@ export default {
           textSecondary: "#6B7280",
           disabled: "#D1D5DB",
         },
-        
-        // Tailwind/Shadcn Standard Fallbacks (Light theme only)
-        background: "#FAFAFA",
-        foreground: "#111827",
+
+        // Dark theme semantic overrides via CSS vars
+        surface: "var(--surface)",
+        'surface-raised': "var(--surface-raised)",
+        'bg-page': "var(--bg-page)",
+        'text-primary-css': "var(--text-primary)",
+        'text-secondary-css': "var(--text-secondary)",
+        'border-color-css': "var(--border-color)",
+        'header-bg': "var(--header-bg)",
+        'nav-bg': "var(--nav-bg)",
+        'input-bg': "var(--input-bg)",
+        'settings-row': "var(--settings-row-bg)",
+        'settings-row-hover': "var(--settings-row-hover)",
+
+        // Tailwind/Shadcn Standard Fallbacks
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         card: {
-          DEFAULT: "#FFFFFF",
-          foreground: "#111827",
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
         popover: {
-          DEFAULT: "#FFFFFF",
-          foreground: "#111827",
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         muted: {
-          DEFAULT: "#FFF1F5",
-          foreground: "#6B7280",
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "#FFF1F5",
-          foreground: "#B51D52",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
-        border: "#E5E7EB",
-        input: "#E5E7EB",
-        ring: "#B51D52",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
       },
       borderRadius: {
         card: "14px",
@@ -71,6 +84,8 @@ export default {
         'soft': '0 2px 12px rgba(0, 0, 0, 0.02), 0 1px 4px rgba(0, 0, 0, 0.01)',
         'lifted': '0 8px 24px -4px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01)',
         'sheet': '0 -10px 30px -5px rgba(0, 0, 0, 0.04)',
+        'dark-soft': '0 2px 12px rgba(0, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.08)',
+        'dark-sheet': '0 -10px 30px -5px rgba(0, 0, 0, 0.3)',
       },
       fontSize: {
         'display': ['36px', { lineHeight: '44px', fontWeight: '800' }],

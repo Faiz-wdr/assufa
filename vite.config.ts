@@ -14,8 +14,8 @@ export default defineConfig({
       injectRegister: 'auto',
       includeAssets: ['favicon.svg', 'icon-192.png', 'icon-512.png'],
       manifest: {
-        name: 'Nattu Dars Attendance',
-        short_name: 'Nattu Dars',
+        name: 'Assufa Dars',
+        short_name: 'Assufa Dars',
         description: 'Attendance Management System for Village Islamic Classes',
         theme_color: '#10b981',
         background_color: '#ffffff',

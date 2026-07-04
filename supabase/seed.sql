@@ -25,7 +25,7 @@ VALUES
   (
     '00000000-0000-0000-0000-000000000100', 
     '00000000-0000-0000-0000-000000000000', 
-    'superadmin@nattudars.com', 
+    'superadmin@assufadars.com', 
     crypt('password123', gen_salt('bf')), 
     now(), 
     '{"provider":"email","providers":["email"]}', 

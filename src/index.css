@@ -3,27 +3,83 @@
 @tailwind utilities;
 
 @layer base {
+  /* ==========================================
+     LIGHT THEME (default)
+  ========================================== */
   :root {
-    --background: 0 0% 98%; /* #FAFAFA */
-    --foreground: 224 71.4% 4.1%; /* #111827 */
-    --card: 0 0% 100%; /* #FFFFFF */
+    --background: 0 0% 98%;          /* #FAFAFA */
+    --foreground: 224 71.4% 4.1%;    /* #111827 */
+    --card: 0 0% 100%;               /* #FFFFFF */
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 340 73% 41%; /* #B51D52 */
+    --primary: 340 73% 41%;          /* #B51D52 */
     --primary-foreground: 0 0% 100%;
     --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 340 100% 97%; /* #FFF1F5 */
+    --muted: 340 100% 97%;           /* #FFF1F5 */
     --muted-foreground: 220 8.9% 46.1%;
-    --accent: 340 100% 97%; /* #FFF1F5 */
+    --accent: 340 100% 97%;          /* #FFF1F5 */
     --accent-foreground: 340 73% 41%;
-    --destructive: 0 84.2% 60.2%; /* #DC2626 */
+    --destructive: 0 84.2% 60.2%;   /* #DC2626 */
     --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%; /* #E5E7EB */
+    --border: 220 13% 91%;           /* #E5E7EB */
     --input: 220 13% 91%;
     --ring: 340 73% 41%;
     --radius: 14px;
+
+    /* Custom semantic tokens - Light */
+    --surface: #ffffff;
+    --surface-raised: #ffffff;
+    --bg-page: #FAFAFA;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --border-color: #E5E7EB;
+    --header-bg: #ffffff;
+    --nav-bg: #ffffff;
+    --input-bg: #ffffff;
+    --settings-row-bg: #ffffff;
+    --settings-row-hover: #FAFAFA;
+    --legal-bg: #ffffff;
+  }
+
+  /* ==========================================
+     DARK THEME
+  ========================================== */
+  .dark {
+    --background: 222 47% 9%;       /* #0F1117 */
+    --foreground: 213 31% 91%;      /* #E2E8F0 */
+    --card: 222 47% 13%;            /* #171E2B */
+    --card-foreground: 213 31% 91%;
+    --popover: 222 47% 13%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 340 73% 55%;         /* slightly brighter pink in dark */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 40% 18%;
+    --secondary-foreground: 213 31% 91%;
+    --muted: 222 40% 18%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 222 40% 18%;
+    --accent-foreground: 340 73% 65%;
+    --destructive: 0 63% 55%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 222 40% 22%;
+    --input: 222 40% 22%;
+    --ring: 340 73% 55%;
+
+    /* Custom semantic tokens - Dark */
+    --surface: #171E2B;
+    --surface-raised: #1E2739;
+    --bg-page: #0F1117;
+    --text-primary: #E2E8F0;
+    --text-secondary: #94A3B8;
+    --border-color: #2D3A52;
+    --header-bg: #171E2B;
+    --nav-bg: #171E2B;
+    --input-bg: #1E2739;
+    --settings-row-bg: #171E2B;
+    --settings-row-hover: #1E2739;
+    --legal-bg: #171E2B;
   }
 }
 
@@ -36,6 +92,7 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 }
 
@@ -58,4 +115,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: 24px;
   height: 24px;
   z-index: 10;
+}
+
+/* Theme transition on cards, headers, modals */
+.theme-transition,
+header, nav, .card-bg, .bottom-sheet-bg {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
