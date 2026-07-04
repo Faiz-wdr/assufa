@@ -278,7 +278,7 @@ export const Dashboard: React.FC = () => {
   // ==========================================
 
   // Super Admin View Guard
-  if (profile && profile.role === 'super_admin') {
+  if (profile && (profile.role as string) === 'super_admin') {
     return (
       <div className="space-y-6 text-left">
         <Card className="flex flex-col items-center justify-center p-8 text-center bg-white border border-neutral-border">

@@ -9,13 +9,9 @@ import {
   Mail,
   Trash2,
   Users,
-  Search,
-  ChevronRight,
   Shield,
   MapPin,
   Calendar,
-  Phone,
-  ArrowUpDown,
   Building,
   Eye,
   EyeOff
@@ -25,7 +21,6 @@ import { useAuth } from '@/features/auth/AuthContext';
 import { useToast } from '@/components/ui/Toast';
 import {
   Button,
-  Card,
   SearchBar,
   Skeleton,
   EmptyState,
@@ -108,7 +103,7 @@ export const Admin: React.FC = () => {
   } = useQuery<OrgAdminData[], Error>({
     queryKey: ['admin_organizations'],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc('admin_get_organizations');
+      const { data, error } = await (supabase as any).rpc('admin_get_organizations');
       if (error) {
         console.error('[Supabase RPC Error]:', error);
         throw new Error(error.message || 'Database RPC function failure');
@@ -121,7 +116,7 @@ export const Admin: React.FC = () => {
   // Mutation: Create Organization
   const createOrgMutation = useMutation({
     mutationFn: async (payload: any) => {
-      const { data, error } = await supabase.rpc('admin_create_organization', {
+      const { data, error } = await (supabase as any).rpc('admin_create_organization', {
         org_name: payload.name.trim(),
         org_place: payload.place.trim(),
         admin_name: payload.adminName.trim(),
@@ -153,7 +148,7 @@ export const Admin: React.FC = () => {
   // Mutation: Edit Organization
   const editOrgMutation = useMutation({
     mutationFn: async (payload: any) => {
-      const { data, error } = await supabase.rpc('admin_edit_organization', {
+      const { data, error } = await (supabase as any).rpc('admin_edit_organization', {
         org_id: payload.id,
         org_name: payload.name.trim(),
         org_place: payload.place.trim(),
@@ -177,7 +172,7 @@ export const Admin: React.FC = () => {
   // Mutation: Change Admin Email
   const changeEmailMutation = useMutation({
     mutationFn: async (payload: any) => {
-      const { data, error } = await supabase.rpc('admin_change_user_email', {
+      const { data, error } = await (supabase as any).rpc('admin_change_user_email', {
         admin_user_id: payload.userId,
         new_email: payload.email.trim().toLowerCase()
       });
@@ -198,7 +193,7 @@ export const Admin: React.FC = () => {
   // Mutation: Reset Admin Password
   const resetPasswordMutation = useMutation({
     mutationFn: async (payload: any) => {
-      const { data, error } = await supabase.rpc('admin_reset_user_password', {
+      const { data, error } = await (supabase as any).rpc('admin_reset_user_password', {
         admin_user_id: payload.userId,
         new_password: payload.password
       });
@@ -218,7 +213,7 @@ export const Admin: React.FC = () => {
   // Mutation: Delete Organization
   const deleteOrgMutation = useMutation({
     mutationFn: async (orgId: string) => {
-      const { data, error } = await supabase.rpc('admin_delete_organization', {
+      const { data, error } = await (supabase as any).rpc('admin_delete_organization', {
         org_id: orgId
       });
       if (error) throw error;
