@@ -80,20 +80,20 @@ const MonthlyCalendar: React.FC<CalendarProps> = React.memo(({
   }
 
   return (
-    <Card className="p-4 bg-white shadow-soft border border-neutral-border">
+    <Card className="p-4 bg-white dark:bg-neutral-800 shadow-soft border border-neutral-border dark:border-neutral-700">
       {/* Month Navigation Header */}
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={onPrevMonth}
-          className="flex items-center justify-center h-9 w-9 rounded-full hover:bg-neutral-bg transition-colors text-neutral-textSecondary"
+          className="flex items-center justify-center h-9 w-9 rounded-full hover:bg-neutral-bg dark:hover:bg-neutral-700 transition-colors text-neutral-textSecondary dark:text-neutral-400"
           aria-label="Previous month"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
-        <h2 className="text-body font-bold text-neutral-textPrimary tracking-tight">{monthName}</h2>
+        <h2 className="text-body font-bold text-neutral-textPrimary dark:text-white tracking-tight">{monthName}</h2>
         <button
           onClick={onNextMonth}
-          className="flex items-center justify-center h-9 w-9 rounded-full hover:bg-neutral-bg transition-colors text-neutral-textSecondary"
+          className="flex items-center justify-center h-9 w-9 rounded-full hover:bg-neutral-bg dark:hover:bg-neutral-700 transition-colors text-neutral-textSecondary dark:text-neutral-400"
           aria-label="Next month"
         >
           <ChevronRight className="h-5 w-5" />
@@ -103,7 +103,7 @@ const MonthlyCalendar: React.FC<CalendarProps> = React.memo(({
       {/* Day-of-week Headers */}
       <div className="grid grid-cols-7 gap-1 mb-2">
         {dayLabels.map(label => (
-          <div key={label} className="text-center text-[10px] font-bold text-neutral-textSecondary uppercase tracking-wider py-1">
+          <div key={label} className="text-center text-[10px] font-bold text-neutral-textSecondary dark:text-neutral-400 uppercase tracking-wider py-1">
             {label}
           </div>
         ))}
@@ -127,13 +127,13 @@ const MonthlyCalendar: React.FC<CalendarProps> = React.memo(({
             cellClass += 'bg-primary text-white ring-2 ring-primary ring-offset-2 cursor-pointer';
           } else if (isToday) {
             // Today WITHOUT attendance: outlined primary
-            cellClass += 'bg-white text-primary border-2 border-primary';
+            cellClass += 'bg-white dark:bg-neutral-800 text-primary border-2 border-primary';
           } else if (hasAttendance) {
             // Past date with attendance: filled primary dot
             cellClass += 'bg-primary text-white cursor-pointer';
           } else {
             // Normal day
-            cellClass += 'text-neutral-textPrimary hover:bg-neutral-bg/60';
+            cellClass += 'text-neutral-textPrimary dark:text-white hover:bg-neutral-bg/60 dark:hover:bg-neutral-700/60';
           }
 
           return (
@@ -281,12 +281,12 @@ export const Dashboard: React.FC = () => {
   if (profile && (profile.role as string) === 'super_admin') {
     return (
       <div className="space-y-6 text-left">
-        <Card className="flex flex-col items-center justify-center p-8 text-center bg-white border border-neutral-border">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary mb-4">
+        <Card className="flex flex-col items-center justify-center p-8 text-center bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft dark:bg-primary/20 text-primary mb-4">
             <Users className="h-6 w-6" />
           </div>
-          <h3 className="text-body-lg font-bold text-neutral-textPrimary">Super Admin Mode</h3>
-          <p className="mt-2 text-small text-neutral-textSecondary max-w-xs">
+          <h3 className="text-body-lg font-bold text-neutral-textPrimary dark:text-white">Super Admin Mode</h3>
+          <p className="mt-2 text-small text-neutral-textSecondary dark:text-neutral-400 max-w-xs">
             Super Admins manage tenant organizations globally. To view the class dashboard, please log in or switch context to an organization Class Admin.
           </p>
         </Card>
@@ -361,23 +361,23 @@ export const Dashboard: React.FC = () => {
                 className="grid grid-cols-3 gap-2"
               >
                 {/* Total Students */}
-                <Card className="p-3 bg-white shadow-soft border border-neutral-border text-center flex flex-col justify-between">
+                <Card className="p-3 bg-white dark:bg-neutral-800 shadow-soft border border-neutral-border dark:border-neutral-700 text-center flex flex-col justify-between">
                   <div>
-                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-primary-soft text-primary mb-1.5">
+                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-primary-soft dark:bg-primary/20 text-primary mb-1.5">
                       <Users className="h-4 w-4" />
                     </div>
-                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary tracking-wider block leading-tight">Total Students</span>
+                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary dark:text-neutral-400 tracking-wider block leading-tight">Total Students</span>
                   </div>
-                  <span className="text-lg font-black text-neutral-textPrimary block mt-1">{totalStudents}</span>
+                  <span className="text-lg font-black text-neutral-textPrimary dark:text-white block mt-1">{totalStudents}</span>
                 </Card>
 
                 {/* Overall Attendance */}
-                <Card className="p-3 bg-white shadow-soft border border-neutral-border text-center flex flex-col justify-between">
+                <Card className="p-3 bg-white dark:bg-neutral-800 shadow-soft border border-neutral-border dark:border-neutral-700 text-center flex flex-col justify-between">
                   <div>
-                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-emerald-50 text-success mb-1.5">
+                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-900/35 text-success mb-1.5">
                       <Calendar className="h-4 w-4" />
                     </div>
-                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary tracking-wider block leading-tight">Overall Attendance</span>
+                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary dark:text-neutral-400 tracking-wider block leading-tight">Overall Attendance</span>
                   </div>
                   <span className={`text-lg font-black block mt-1 ${overallPercentage >= 85 ? 'text-success' :
                       overallPercentage >= 75 ? 'text-warning' : 'text-danger'
@@ -387,14 +387,14 @@ export const Dashboard: React.FC = () => {
                 </Card>
 
                 {/* Total Classes */}
-                <Card className="p-3 bg-white shadow-soft border border-neutral-border text-center flex flex-col justify-between">
+                <Card className="p-3 bg-white dark:bg-neutral-800 shadow-soft border border-neutral-border dark:border-neutral-700 text-center flex flex-col justify-between">
                   <div>
-                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-amber-50 text-amber-600 mb-1.5">
+                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-amber-50 dark:bg-amber-950/35 text-amber-600 dark:text-amber-500 mb-1.5">
                       <ClipboardCheck className="h-4 w-4" />
                     </div>
-                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary tracking-wider block leading-tight">Total Classes</span>
+                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary dark:text-neutral-400 tracking-wider block leading-tight">Total Classes</span>
                   </div>
-                  <span className="text-lg font-black text-neutral-textPrimary block mt-1">{attendanceDates.size}</span>
+                  <span className="text-lg font-black text-neutral-textPrimary dark:text-white block mt-1">{attendanceDates.size}</span>
                 </Card>
               </motion.div>
 

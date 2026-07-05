@@ -459,12 +459,12 @@ export const Reports: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight text-neutral-textPrimary">Reports</h1>
           <p className="text-sm text-neutral-textSecondary">View historical metrics.</p>
         </div>
-        <Card className="flex flex-col items-center justify-center p-8 text-center bg-white border border-neutral-border">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary mb-4">
+        <Card className="flex flex-col items-center justify-center p-8 text-center bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft dark:bg-primary/20 text-primary mb-4">
             <Users className="h-6 w-6" />
           </div>
-          <h3 className="text-body-lg font-bold text-neutral-textPrimary">Super Admin Mode</h3>
-          <p className="mt-2 text-small text-neutral-textSecondary max-w-xs">
+          <h3 className="text-body-lg font-bold text-neutral-textPrimary dark:text-white">Super Admin Mode</h3>
+          <p className="mt-2 text-small text-neutral-textSecondary dark:text-neutral-400 max-w-xs">
             Super Admins manage tenant organizations globally. To view or edit attendance reports, please log in or switch context to an organization Class Admin.
           </p>
         </Card>
@@ -562,7 +562,7 @@ export const Reports: React.FC = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.15 }}
-                      className="rounded-card border border-neutral-border bg-white overflow-hidden shadow-soft"
+                      className="rounded-card border border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden shadow-soft"
                     >
                       {/* Card Header Tappable Segment */}
                       <div
@@ -570,20 +570,20 @@ export const Reports: React.FC = () => {
                         className="flex items-center justify-between p-4 cursor-pointer select-none"
                       >
                         <div className="flex items-center space-x-3 text-left">
-                          <div className="flex h-10 w-10 flex-col items-center justify-center rounded-[10px] bg-primary-soft text-primary font-bold text-xs select-none">
+                          <div className="flex h-10 w-10 flex-col items-center justify-center rounded-[10px] bg-primary-soft dark:bg-primary/20 text-primary font-bold text-xs select-none">
                             <Calendar className="h-4.5 w-4.5" />
                           </div>
                           <div>
-                            <span className="text-[10px] uppercase font-bold text-neutral-textSecondary tracking-wider block leading-none">{report.dayName}</span>
-                            <span className="font-bold text-body text-neutral-textPrimary mt-1.5 block leading-none">{formatDisplayDate(report.dateStr)}</span>
+                            <span className="text-[10px] uppercase font-bold text-neutral-textSecondary dark:text-neutral-400 tracking-wider block leading-none">{report.dayName}</span>
+                            <span className="font-bold text-body text-neutral-textPrimary dark:text-white mt-1.5 block leading-none">{formatDisplayDate(report.dateStr)}</span>
                           </div>
                         </div>
 
                         {/* Stats Summary overview */}
                         <div className="flex items-center space-x-4">
                           <div className="text-right hidden xs:block">
-                            <span className="text-[10px] font-medium text-neutral-textSecondary block">Presents</span>
-                            <span className="font-bold text-small text-neutral-textPrimary mt-0.5 block">{report.presentCount} / {report.presentCount + report.absentCount}</span>
+                            <span className="text-[10px] font-medium text-neutral-textSecondary dark:text-neutral-400 block">Presents</span>
+                            <span className="font-bold text-small text-neutral-textPrimary dark:text-white mt-0.5 block">{report.presentCount} / {report.presentCount + report.absentCount}</span>
                           </div>
                           <div className="flex items-center space-x-2">
                             <span className={`text-caption font-bold px-2 py-0.5 rounded-badge ${pct >= 85 ? 'bg-emerald-50 text-success' :
@@ -610,7 +610,7 @@ export const Reports: React.FC = () => {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.18 }}
-                            className="overflow-hidden border-t border-neutral-border bg-neutral-bg/30"
+                            className="overflow-hidden border-t border-neutral-border dark:border-neutral-700 bg-neutral-bg/30 dark:bg-neutral-900/30"
                           >
                             <div className="p-4 space-y-4 text-small">
                               {/* Grid columns of Present / Absentees */}
@@ -619,11 +619,11 @@ export const Reports: React.FC = () => {
                                 <div className="space-y-2">
                                   <span className="text-[10px] uppercase tracking-wider font-bold text-success block">Present ({report.presentCount})</span>
                                   {report.present.length === 0 ? (
-                                    <span className="text-xs text-neutral-textSecondary block italic">No students present</span>
+                                    <span className="text-xs text-neutral-textSecondary dark:text-neutral-400 block italic">No students present</span>
                                   ) : (
-                                    <div className="max-h-36 overflow-y-auto border border-neutral-border/60 bg-white rounded-input divide-y divide-neutral-border/40 px-2.5 py-1">
+                                    <div className="max-h-36 overflow-y-auto border border-neutral-border/60 dark:border-neutral-700/60 bg-white dark:bg-neutral-800 rounded-input divide-y divide-neutral-border/40 dark:divide-neutral-700/40 px-2.5 py-1">
                                       {report.present.map((name, i) => (
-                                        <span key={i} className="block py-1.5 font-semibold text-neutral-textPrimary text-xs">{name}</span>
+                                        <span key={i} className="block py-1.5 font-semibold text-neutral-textPrimary dark:text-white text-xs">{name}</span>
                                       ))}
                                     </div>
                                   )}
@@ -633,11 +633,11 @@ export const Reports: React.FC = () => {
                                 <div className="space-y-2">
                                   <span className="text-[10px] uppercase tracking-wider font-bold text-danger block">Absent ({report.absentCount})</span>
                                   {report.absent.length === 0 ? (
-                                    <span className="text-xs text-neutral-textSecondary block italic">No students absent</span>
+                                    <span className="text-xs text-neutral-textSecondary dark:text-neutral-400 block italic">No students absent</span>
                                   ) : (
-                                    <div className="max-h-36 overflow-y-auto border border-neutral-border/60 bg-white rounded-input divide-y divide-neutral-border/40 px-2.5 py-1">
+                                    <div className="max-h-36 overflow-y-auto border border-neutral-border/60 dark:border-neutral-700/60 bg-white dark:bg-neutral-800 rounded-input divide-y divide-neutral-border/40 dark:divide-neutral-700/40 px-2.5 py-1">
                                       {report.absent.map((name, i) => (
-                                        <span key={i} className="block py-1.5 font-semibold text-neutral-textPrimary text-xs">{name}</span>
+                                        <span key={i} className="block py-1.5 font-semibold text-neutral-textPrimary dark:text-white text-xs">{name}</span>
                                       ))}
                                     </div>
                                   )}

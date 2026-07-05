@@ -35,10 +35,10 @@ export const Button: React.FC<ButtonProps> = ({
   // Variant configurations
   const variantStyles = {
     primary: "bg-primary text-white hover:bg-primary-hover active:bg-primary-hover",
-    secondary: "bg-white text-neutral-textPrimary border border-neutral-border hover:bg-neutral-bg active:bg-neutral-bg",
-    ghost: "bg-transparent text-neutral-textSecondary hover:bg-primary-soft hover:text-primary active:bg-primary-soft",
+    secondary: "bg-white dark:bg-neutral-800 text-neutral-textPrimary dark:text-white border border-neutral-border dark:border-neutral-700 hover:bg-neutral-bg dark:hover:bg-neutral-700 active:bg-neutral-bg dark:active:bg-neutral-700",
+    ghost: "bg-transparent text-neutral-textSecondary dark:text-neutral-400 hover:bg-primary-soft dark:hover:bg-primary/10 hover:text-primary active:bg-primary-soft",
     danger: "bg-danger text-white hover:bg-red-700 active:bg-red-800",
-    icon: "h-[48px] w-[48px] p-0 rounded-btn bg-white border border-neutral-border text-neutral-textSecondary hover:text-neutral-textPrimary hover:bg-neutral-bg",
+    icon: "h-[48px] w-[48px] p-0 rounded-btn bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700 text-neutral-textSecondary dark:text-neutral-300 hover:text-neutral-textPrimary dark:hover:text-white hover:bg-neutral-bg dark:hover:bg-neutral-700",
     fab: "h-[56px] w-[56px] p-0 rounded-full bg-primary text-white shadow-lifted hover:bg-primary-hover hover:scale-105",
   };
 
@@ -78,7 +78,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Card: React.FC<CardProps> = ({ children, className = '', ...props }) => {
   return (
     <div 
-      className={`rounded-card bg-neutral-surface border border-neutral-border p-5 shadow-soft ${className}`}
+      className={`rounded-card bg-neutral-surface dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700 p-5 shadow-soft ${className}`}
       {...props}
     >
       {children}
@@ -161,7 +161,7 @@ interface TabsProps {
 
 export const Tabs: React.FC<TabsProps> = ({ options, activeTab, onChange, className = '' }) => {
   return (
-    <div className={`flex rounded-btn bg-neutral-border/30 p-1 w-full relative ${className}`}>
+    <div className={`flex rounded-btn bg-neutral-border/30 dark:bg-neutral-700/50 p-1 w-full relative ${className}`}>
       {options.map((option) => {
         const isActive = option.id === activeTab;
         return (
@@ -174,11 +174,11 @@ export const Tabs: React.FC<TabsProps> = ({ options, activeTab, onChange, classN
             {isActive && (
               <motion.div
                 layoutId="active-tab-pill"
-                className="absolute inset-0 bg-white rounded-[12px] shadow-sm -z-10"
+                className="absolute inset-0 bg-white dark:bg-neutral-800 rounded-[12px] shadow-sm -z-10"
                 transition={{ type: "spring", stiffness: 350, damping: 30 }}
               />
             )}
-            <span className={isActive ? "text-primary" : "text-neutral-textSecondary"}>
+            <span className={isActive ? "text-primary dark:text-primary-light" : "text-neutral-textSecondary dark:text-neutral-400"}>
               {option.label}
             </span>
           </button>
@@ -213,7 +213,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="flex h-[48px] w-full rounded-input border border-neutral-border bg-white pl-11 pr-4 text-small placeholder-neutral-textSecondary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary focus:shadow-soft"
+        className="flex h-[48px] w-full rounded-input border border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 pl-11 pr-4 text-small text-neutral-textPrimary dark:text-white placeholder-neutral-textSecondary dark:placeholder-neutral-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary focus:shadow-soft"
         placeholder={placeholder}
       />
     </div>
@@ -239,8 +239,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   return (
     <div className="flex items-center justify-between py-2 w-full text-left">
       <div className="space-y-0.5">
-        <h3 className="text-h3 font-bold tracking-tight text-neutral-textPrimary">{title}</h3>
-        {subtitle && <p className="text-caption text-neutral-textSecondary">{subtitle}</p>}
+        <h3 className="text-h3 font-bold tracking-tight text-neutral-textPrimary dark:text-white">{title}</h3>
+        {subtitle && <p className="text-caption text-neutral-textSecondary dark:text-neutral-400">{subtitle}</p>}
       </div>
       {actionLabel && onAction && (
         <button
@@ -283,10 +283,10 @@ export const StatCard: React.FC<StatCardProps> = ({
   return (
     <Card className="flex flex-col justify-between">
       <div>
-        <span className="text-caption text-neutral-textSecondary font-medium uppercase tracking-wider">
+        <span className="text-caption text-neutral-textSecondary dark:text-neutral-400 font-medium uppercase tracking-wider">
           {label}
         </span>
-        <h2 className="text-display font-extrabold text-neutral-textPrimary mt-1">
+        <h2 className="text-display font-extrabold text-neutral-textPrimary dark:text-white mt-1">
           {value}
         </h2>
       </div>
@@ -336,12 +336,12 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   onAction,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center border border-dashed border-neutral-border rounded-card bg-neutral-surface/60">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-border/30 text-neutral-textSecondary">
+    <div className="flex flex-col items-center justify-center p-8 text-center border border-dashed border-neutral-border dark:border-neutral-700 rounded-card bg-neutral-surface/60 dark:bg-neutral-800/60">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-border/30 dark:bg-neutral-700/50 text-neutral-textSecondary dark:text-neutral-400">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="mt-4 text-body-lg font-bold text-neutral-textPrimary">{title}</h3>
-      <p className="mt-1.5 max-w-xs text-small text-neutral-textSecondary">{description}</p>
+      <h3 className="mt-4 text-body-lg font-bold text-neutral-textPrimary dark:text-white">{title}</h3>
+      <p className="mt-1.5 max-w-xs text-small text-neutral-textSecondary dark:text-neutral-400">{description}</p>
       {actionLabel && onAction && (
         <Button variant="secondary" size="sm" className="mt-5" onClick={onAction}>
           {actionLabel}
@@ -366,12 +366,12 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
   onRetry,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-6 text-center border border-danger/10 rounded-card bg-red-50/20">
-      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-danger">
+    <div className="flex flex-col items-center justify-center p-6 text-center border border-danger/10 dark:border-danger/20 rounded-card bg-red-50/20 dark:bg-red-950/10">
+      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 dark:bg-red-950 text-danger">
         <AlertCircle className="h-5 w-5" />
       </div>
-      <h3 className="mt-3 text-body font-bold text-neutral-textPrimary">{title}</h3>
-      <p className="mt-1 text-small text-neutral-textSecondary max-w-xs">{description}</p>
+      <h3 className="mt-3 text-body font-bold text-neutral-textPrimary dark:text-white">{title}</h3>
+      <p className="mt-1 text-small text-neutral-textSecondary dark:text-neutral-400 max-w-xs">{description}</p>
       {onRetry && (
         <Button variant="danger" size="sm" className="mt-4 h-[36px]" onClick={onRetry}>
           Try Again

@@ -559,12 +559,12 @@ export const Students: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight text-neutral-textPrimary">Class Students</h1>
           <p className="text-sm text-neutral-textSecondary">Roster list for teachers.</p>
         </div>
-        <Card className="flex flex-col items-center justify-center p-8 text-center bg-white border border-neutral-border">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary mb-4">
+        <Card className="flex flex-col items-center justify-center p-8 text-center bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft dark:bg-primary/20 text-primary mb-4">
             <Users className="h-6 w-6" />
           </div>
-          <h3 className="text-body-lg font-bold text-neutral-textPrimary">Super Admin Mode</h3>
-          <p className="mt-2 text-small text-neutral-textSecondary max-w-xs">
+          <h3 className="text-body-lg font-bold text-neutral-textPrimary dark:text-white">Super Admin Mode</h3>
+          <p className="mt-2 text-small text-neutral-textSecondary dark:text-neutral-400 max-w-xs">
             Super Admins manage tenant organizations globally. To add or view students, please log in or switch context to an organization Class Admin.
           </p>
         </Card>
@@ -668,7 +668,7 @@ export const Students: React.FC = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.15 }}
-                      className="rounded-card border border-neutral-border bg-white overflow-hidden shadow-soft"
+                      className="rounded-card border border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden shadow-soft"
                     >
                       {/* Tappable Card Header */}
                       <div 
@@ -676,10 +676,10 @@ export const Students: React.FC = () => {
                         className="flex items-center justify-between p-4 cursor-pointer select-none"
                       >
                         <div className="flex items-center space-x-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-soft text-primary font-bold text-xs">
+                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-soft dark:bg-primary/20 text-primary font-bold text-xs">
                             {student.name.charAt(0).toUpperCase()}
                           </div>
-                          <span className="font-bold text-body text-neutral-textPrimary">
+                          <span className="font-bold text-body text-neutral-textPrimary dark:text-white">
                             {student.name}
                           </span>
                         </div>
@@ -708,16 +708,16 @@ export const Students: React.FC = () => {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="border-t border-neutral-border bg-neutral-bg/40 px-4 py-3 text-left overflow-hidden text-small"
+                            className="border-t border-neutral-border dark:border-neutral-700 bg-neutral-bg/40 dark:bg-neutral-900/40 px-4 py-3 text-left overflow-hidden text-small"
                           >
                             <div className="grid grid-cols-2 gap-4">
                               <div>
-                                <span className="text-[10px] uppercase tracking-wider font-bold text-neutral-textSecondary block">Place</span>
-                                <span className="font-semibold text-neutral-textPrimary">{student.place || 'N/A'}</span>
+                                <span className="text-[10px] uppercase tracking-wider font-bold text-neutral-textSecondary dark:text-neutral-400 block">Place</span>
+                                <span className="font-semibold text-neutral-textPrimary dark:text-white">{student.place || 'N/A'}</span>
                               </div>
                               <div>
-                                <span className="text-[10px] uppercase tracking-wider font-bold text-neutral-textSecondary block">Phone</span>
-                                <span className="font-semibold text-neutral-textPrimary">{student.phone || 'N/A'}</span>
+                                <span className="text-[10px] uppercase tracking-wider font-bold text-neutral-textSecondary dark:text-neutral-400 block">Phone</span>
+                                <span className="font-semibold text-neutral-textPrimary dark:text-white">{student.phone || 'N/A'}</span>
                               </div>
                             </div>
 
@@ -930,15 +930,15 @@ export const Students: React.FC = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.95, opacity: 0 }}
                 transition={{ duration: 0.18 }}
-                className="w-full max-w-md rounded-card bg-white p-5 shadow-lifted border border-neutral-border pointer-events-auto flex flex-col text-left space-y-4 overflow-hidden"
+                className="w-full max-w-md rounded-card bg-white dark:bg-neutral-800 p-5 shadow-lifted border border-neutral-border dark:border-neutral-700 pointer-events-auto flex flex-col text-left space-y-4 overflow-hidden"
               >
                 {/* Modal Title */}
                 <div>
-                  <h3 className="text-body-lg font-bold text-neutral-textPrimary tracking-tight flex items-center space-x-2">
+                  <h3 className="text-body-lg font-bold text-neutral-textPrimary dark:text-white tracking-tight flex items-center space-x-2">
                     <FileSpreadsheet className="h-5 w-5 text-primary" />
                     <span>Import Students</span>
                   </h3>
-                  <p className="text-caption text-neutral-textSecondary mt-0.5">
+                  <p className="text-caption text-neutral-textSecondary dark:text-neutral-400 mt-0.5">
                     Upload a CSV or Excel (.xlsx) file using the following column order.
                   </p>
                 </div>
@@ -947,11 +947,11 @@ export const Students: React.FC = () => {
                 {!importedFile && (
                   <div className="space-y-4">
                     {/* Sample Table */}
-                    <div className="rounded-input border border-neutral-border bg-neutral-bg/60 p-3">
-                      <span className="text-[10px] uppercase font-bold text-neutral-textSecondary tracking-wide block mb-1">Columns Structure</span>
-                      <table className="w-full text-[11px] text-left text-neutral-textPrimary border-collapse">
+                    <div className="rounded-input border border-neutral-border dark:border-neutral-700 bg-neutral-bg/60 dark:bg-neutral-900/60 p-3">
+                      <span className="text-[10px] uppercase font-bold text-neutral-textSecondary dark:text-neutral-400 tracking-wide block mb-1">Columns Structure</span>
+                      <table className="w-full text-[11px] text-left text-neutral-textPrimary dark:text-white border-collapse">
                         <thead>
-                          <tr className="border-b border-neutral-border font-bold">
+                          <tr className="border-b border-neutral-border dark:border-neutral-700 font-bold">
                             <th className="py-1">Name *</th>
                             <th className="py-1">Place</th>
                             <th className="py-1">Phone Number</th>
@@ -983,11 +983,11 @@ export const Students: React.FC = () => {
                     {/* Trigger File input */}
                     <div 
                       onClick={() => fileInputRef.current?.click()}
-                      className="border-2 border-dashed border-neutral-border rounded-input p-6 text-center hover:border-primary/50 cursor-pointer transition-colors bg-neutral-bg/20"
+                      className="border-2 border-dashed border-neutral-border dark:border-neutral-700 rounded-input p-6 text-center hover:border-primary/50 cursor-pointer transition-colors bg-neutral-bg/20 dark:bg-neutral-900/20"
                     >
-                      <Upload className="h-8 w-8 text-neutral-textSecondary mx-auto mb-2" />
+                      <Upload className="h-8 w-8 text-neutral-textSecondary dark:text-neutral-400 mx-auto mb-2" />
                       <span className="text-small font-bold text-primary block">Select CSV or Excel file</span>
-                      <span className="text-caption text-neutral-textSecondary mt-0.5 block">Drag & drop or browse from storage</span>
+                      <span className="text-caption text-neutral-textSecondary dark:text-neutral-400 mt-0.5 block">Drag & drop or browse from storage</span>
                       <input 
                         type="file" 
                         ref={fileInputRef} 
@@ -1030,23 +1030,23 @@ export const Students: React.FC = () => {
                 {!isParsing && importedFile && parsedRecords.length > 0 && (
                   <div className="space-y-4">
                     {/* Summary Row */}
-                    <div className="grid grid-cols-3 gap-2 bg-neutral-bg/60 border border-neutral-border rounded-input p-3 text-center">
+                    <div className="grid grid-cols-3 gap-2 bg-neutral-bg/60 dark:bg-neutral-900/60 border border-neutral-border dark:border-neutral-700 rounded-input p-3 text-center">
                       <div>
-                        <span className="text-[10px] font-bold text-neutral-textSecondary block">Parsed</span>
-                        <span className="text-body-lg font-bold text-neutral-textPrimary">{importSummary.total}</span>
+                        <span className="text-[10px] font-bold text-neutral-textSecondary dark:text-neutral-400 block">Parsed</span>
+                        <span className="text-body-lg font-bold text-neutral-textPrimary dark:text-white">{importSummary.total}</span>
                       </div>
                       <div>
-                        <span className="text-[10px] font-bold text-neutral-textSecondary block">Valid</span>
+                        <span className="text-[10px] font-bold text-neutral-textSecondary dark:text-neutral-400 block">Valid</span>
                         <span className="text-body-lg font-bold text-success">{importSummary.valid}</span>
                       </div>
                       <div>
-                        <span className="text-[10px] font-bold text-neutral-textSecondary block">Errors</span>
+                        <span className="text-[10px] font-bold text-neutral-textSecondary dark:text-neutral-400 block">Errors</span>
                         <span className="text-body-lg font-bold text-danger">{importSummary.errors}</span>
                       </div>
                     </div>
 
                     {/* Preview Roster Scroll List */}
-                    <div className="border border-neutral-border rounded-input max-h-48 overflow-y-auto divide-y divide-neutral-border bg-white">
+                    <div className="border border-neutral-border dark:border-neutral-700 rounded-input max-h-48 overflow-y-auto divide-y divide-neutral-border dark:divide-neutral-700 bg-white dark:bg-neutral-900">
                       {parsedRecords.map((rec, index) => (
                         <div key={index} className="p-3 text-left text-small flex justify-between items-center bg-neutral-bg/10">
                           <div>

@@ -258,12 +258,12 @@ export const Attendance: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight text-neutral-textPrimary">Attendance</h1>
           <p className="text-sm text-neutral-textSecondary">Manage class logs.</p>
         </div>
-        <Card className="flex flex-col items-center justify-center p-8 text-center bg-white border border-neutral-border">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary mb-4">
+        <Card className="flex flex-col items-center justify-center p-8 text-center bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft dark:bg-primary/20 text-primary mb-4">
             <Calendar className="h-6 w-6" />
           </div>
-          <h3 className="text-body-lg font-bold text-neutral-textPrimary">Super Admin Mode</h3>
-          <p className="mt-2 text-small text-neutral-textSecondary max-w-xs">
+          <h3 className="text-body-lg font-bold text-neutral-textPrimary dark:text-white">Super Admin Mode</h3>
+          <p className="mt-2 text-small text-neutral-textSecondary dark:text-neutral-400 max-w-xs">
             Super Admins manage tenant organizations globally. To record or view attendance logs, please log in or switch context to an organization Class Admin.
           </p>
         </Card>
@@ -284,16 +284,16 @@ export const Attendance: React.FC = () => {
     >
       {/* Title & Subtext */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-neutral-textPrimary">Attendance</h1>
-        <p className="text-caption text-neutral-textSecondary">Take roster log sheets weekly.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-neutral-textPrimary dark:text-white">Attendance</h1>
+        <p className="text-caption text-neutral-textSecondary dark:text-neutral-400">Take roster log sheets weekly.</p>
       </div>
 
       {/* Date Selector Card */}
-      <Card className="p-4 bg-white shadow-soft border border-neutral-border space-y-3">
+      <Card className="p-4 bg-white dark:bg-neutral-800 shadow-soft border border-neutral-border dark:border-neutral-700 space-y-3">
         <div className="flex justify-between items-center">
           <div className="space-y-0.5">
-            <span className="text-[10px] uppercase font-bold text-neutral-textSecondary tracking-wider">Log Sheet Date</span>
-            <h2 className="text-body font-bold text-neutral-textPrimary">{formatDisplayDate(selectedDate)}</h2>
+            <span className="text-[10px] uppercase font-bold text-neutral-textSecondary dark:text-neutral-400 tracking-wider">Log Sheet Date</span>
+            <h2 className="text-body font-bold text-neutral-textPrimary dark:text-white">{formatDisplayDate(selectedDate)}</h2>
           </div>
           <div className="w-1/2 max-w-[150px]">
             <DatePicker
@@ -356,17 +356,17 @@ export const Attendance: React.FC = () => {
             <div className="space-y-4 pt-2">
               {/* Summary Metrics */}
               <div className="grid grid-cols-3 gap-3">
-                <div className="rounded-card bg-emerald-50 border border-emerald-100 p-3 text-center shadow-sm">
+                <div className="rounded-card bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 p-3 text-center shadow-sm">
                   <span className="text-[10px] font-bold text-success uppercase block tracking-wider">Present</span>
                   <span className="text-body-lg font-black text-success mt-0.5 block">{summaryCounts.present}</span>
                 </div>
-                <div className="rounded-card bg-red-50 border border-red-100 p-3 text-center shadow-sm">
+                <div className="rounded-card bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 p-3 text-center shadow-sm">
                   <span className="text-[10px] font-bold text-danger uppercase block tracking-wider">Absent</span>
                   <span className="text-body-lg font-black text-danger mt-0.5 block">{summaryCounts.absent}</span>
                 </div>
-                <div className="rounded-card bg-neutral-bg border border-neutral-border p-3 text-center shadow-sm">
-                  <span className="text-[10px] font-bold text-neutral-textSecondary uppercase block tracking-wider">Total</span>
-                  <span className="text-body-lg font-black text-neutral-textPrimary mt-0.5 block">{summaryCounts.total}</span>
+                <div className="rounded-card bg-neutral-bg dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700 p-3 text-center shadow-sm">
+                  <span className="text-[10px] font-bold text-neutral-textSecondary dark:text-neutral-400 uppercase block tracking-wider">Total</span>
+                  <span className="text-body-lg font-black text-neutral-textPrimary dark:text-white mt-0.5 block">{summaryCounts.total}</span>
                 </div>
               </div>
 
@@ -384,13 +384,13 @@ export const Attendance: React.FC = () => {
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.15 }}
-                      className="flex items-center justify-between p-4 bg-white border border-neutral-border rounded-card shadow-soft cursor-pointer hover:border-neutral-border/80 transition-colors select-none h-[64px]"
+                      className="flex items-center justify-between p-4 bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700 rounded-card shadow-soft cursor-pointer hover:border-neutral-border/80 dark:hover:border-neutral-700/80 transition-colors select-none h-[64px]"
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-bg text-neutral-textSecondary font-bold text-xs">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-bg dark:bg-neutral-900 text-neutral-textSecondary dark:text-neutral-400 font-bold text-xs">
                           {student.name.charAt(0).toUpperCase()}
                         </div>
-                        <span className="font-bold text-body text-neutral-textPrimary">{student.name}</span>
+                        <span className="font-bold text-body text-neutral-textPrimary dark:text-white">{student.name}</span>
                       </div>
                       
                       <motion.span
@@ -410,7 +410,7 @@ export const Attendance: React.FC = () => {
               </div>
 
               {/* Sticky bottom Action button Drawer */}
-              <div className="fixed bottom-[72px] left-0 right-0 p-4 bg-white border-t border-neutral-border flex justify-center max-w-md mx-auto z-10 shadow-lifted">
+              <div className="fixed bottom-[72px] left-0 right-0 p-4 bg-white dark:bg-neutral-800 border-t border-neutral-border dark:border-neutral-700 flex justify-center max-w-md mx-auto z-10 shadow-lifted">
                 <Button 
                   variant="primary" 
                   onClick={handleSaveClick}
