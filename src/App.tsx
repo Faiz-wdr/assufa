@@ -38,6 +38,7 @@ function App() {
                 {/* Public Auth Routes */}
                 <Route element={<AuthLayout />}>
                   <Route path="/login" element={<Login />} />
+                  <Route path="/support" element={<Support />} />
                 </Route>
 
                 {/* Private Protected Routes */}

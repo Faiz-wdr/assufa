@@ -4,10 +4,12 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Mail, MessageSquare, Copy, Check } from 'lucide-react';
 import { useToast } from '@/components/ui/Toast';
 import { Card } from '@/components/ui/CoreUI';
+import { useAuth } from '@/features/auth/AuthContext';
 
 export const Support: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const [copiedType, setCopiedType] = useState<'email' | 'phone' | null>(null);
 
@@ -42,7 +44,13 @@ export const Support: React.FC = () => {
       {/* Title Bar with Back Button */}
       <div className="flex items-center space-x-3.5">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            if (user) {
+              navigate(-1);
+            } else {
+              navigate('/login');
+            }
+          }}
           className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700 text-neutral-textPrimary dark:text-white hover:bg-neutral-bg dark:hover:bg-neutral-700 active:scale-95 transition-all focus:outline-none"
           title="Go back"
         >
@@ -58,14 +66,22 @@ export const Support: React.FC = () => {
       {/* Info Message Box */}
       <Card className="p-4 bg-white dark:bg-neutral-800 border border-neutral-border dark:border-neutral-700 shadow-soft">
         <p className="text-small text-neutral-textSecondary dark:text-neutral-300 leading-relaxed font-medium">
-          If you need assistance using the application, please read the{' '}
-          <Link
-            to="/settings/help"
-            className="text-primary dark:text-primary-hover font-semibold hover:underline"
-          >
-            Help section
-          </Link>{' '}
-          first. If your issue is not resolved, feel free to contact support using the details below.
+          {user ? (
+            <>
+              If you need assistance using the application, please read the{' '}
+              <Link
+                to="/settings/help"
+                className="text-primary dark:text-primary-hover font-semibold hover:underline"
+              >
+                Help section
+              </Link>{' '}
+              first. If your issue is not resolved, feel free to contact support using the details below. We will respond within 24 hours.
+            </>
+          ) : (
+            <>
+              If you need assistance using the application, please contact support using the details below. We will respond within 24 hours.
+            </>
+          )}
         </p>
       </Card>
 

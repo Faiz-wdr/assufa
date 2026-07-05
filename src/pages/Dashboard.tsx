@@ -308,7 +308,8 @@ export const Dashboard: React.FC = () => {
       {isLoading && (
         <div className="space-y-4">
           <Skeleton className="h-[340px] w-full" />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-2">
+            <Skeleton className="h-20 w-full" />
             <Skeleton className="h-20 w-full" />
             <Skeleton className="h-20 w-full" />
           </div>
@@ -357,28 +358,43 @@ export const Dashboard: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2, delay: 0.1 }}
-                className="grid grid-cols-2 gap-3"
+                className="grid grid-cols-3 gap-2"
               >
                 {/* Total Students */}
-                <Card className="p-4 bg-white shadow-soft border border-neutral-border text-center">
-                  <div className="flex h-9 w-9 mx-auto items-center justify-center rounded-full bg-primary-soft text-primary mb-2">
-                    <Users className="h-4.5 w-4.5" />
+                <Card className="p-3 bg-white shadow-soft border border-neutral-border text-center flex flex-col justify-between">
+                  <div>
+                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-primary-soft text-primary mb-1.5">
+                      <Users className="h-4 w-4" />
+                    </div>
+                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary tracking-wider block leading-tight">Total Students</span>
                   </div>
-                  <span className="text-[10px] uppercase font-bold text-neutral-textSecondary tracking-wider block">Total Students</span>
-                  <span className="text-xl font-black text-neutral-textPrimary block mt-1">{totalStudents}</span>
+                  <span className="text-lg font-black text-neutral-textPrimary block mt-1">{totalStudents}</span>
                 </Card>
 
                 {/* Overall Attendance */}
-                <Card className="p-4 bg-white shadow-soft border border-neutral-border text-center">
-                  <div className="flex h-9 w-9 mx-auto items-center justify-center rounded-full bg-emerald-50 text-success mb-2">
-                    <Calendar className="h-4.5 w-4.5" />
+                <Card className="p-3 bg-white shadow-soft border border-neutral-border text-center flex flex-col justify-between">
+                  <div>
+                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-emerald-50 text-success mb-1.5">
+                      <Calendar className="h-4 w-4" />
+                    </div>
+                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary tracking-wider block leading-tight">Overall Attendance</span>
                   </div>
-                  <span className="text-[10px] uppercase font-bold text-neutral-textSecondary tracking-wider block">Overall Attendance</span>
-                  <span className={`text-xl font-black block mt-1 ${overallPercentage >= 85 ? 'text-success' :
+                  <span className={`text-lg font-black block mt-1 ${overallPercentage >= 85 ? 'text-success' :
                       overallPercentage >= 75 ? 'text-warning' : 'text-danger'
                     }`}>
                     {allAttendance && allAttendance.length > 0 ? `${overallPercentage}%` : '—'}
                   </span>
+                </Card>
+
+                {/* Total Classes */}
+                <Card className="p-3 bg-white shadow-soft border border-neutral-border text-center flex flex-col justify-between">
+                  <div>
+                    <div className="flex h-8 w-8 mx-auto items-center justify-center rounded-full bg-amber-50 text-amber-600 mb-1.5">
+                      <ClipboardCheck className="h-4 w-4" />
+                    </div>
+                    <span className="text-[9px] uppercase font-bold text-neutral-textSecondary tracking-wider block leading-tight">Total Classes</span>
+                  </div>
+                  <span className="text-lg font-black text-neutral-textPrimary block mt-1">{attendanceDates.size}</span>
                 </Card>
               </motion.div>
 

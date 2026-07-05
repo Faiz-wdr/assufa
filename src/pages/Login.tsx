@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, HelpCircle } from 'lucide-react';
 import { supabase } from '@/supabase/supabase';
 
 export const Login: React.FC = () => {
@@ -102,6 +102,18 @@ export const Login: React.FC = () => {
           'Sign In'
         )}
       </button>
+
+      <div className="flex justify-center pt-2">
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => navigate('/support')}
+          className="inline-flex items-center space-x-1.5 text-xs font-semibold text-neutral-textSecondary dark:text-neutral-400 hover:text-primary dark:hover:text-primary-hover transition-colors focus:outline-none disabled:opacity-50"
+        >
+          <HelpCircle className="h-4 w-4" />
+          <span>Contact Support</span>
+        </button>
+      </div>
 
 
 
